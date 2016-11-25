@@ -115,8 +115,8 @@ class RK4Solver : Solver {
 		}
 
 		// evaluate new position
-		for(int i = 0; i < 4; ++i)
-			for(int j = 0; j < dim; ++j)
+		for (int i = 0; i < 4; ++i)
+			for (int j = 0; j < dim; ++j)
 				x[j] += WEIGHTS[i] * k[i][j];
 
 		mX = x;
