@@ -104,7 +104,7 @@ class RK4Solver : Solver {
 		for (int i = 0; i < k.length; ++i)
 			k[i] = new real[](dim);
 
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < T_COEF.length; ++i) {
 			for (int j = 0; j < dim; ++j) {
 				PosVec midPoint = mX.dup;
 				for (int l = i - 1; l >= 0; --l)
