@@ -31,8 +31,8 @@ void main() {
 	// the differential equation that will be solved is dX/dt = F(t, x(t))
 	// In our example F = [ v, -x ] (simple harmonic oscillator with frequency=1)
 	ForceVec double_osc_f = [
-		(double t, PosVec x) => x[1],
-		(double t, PosVec x) => -x[0]
+		(real t, PosVec x) => x[1],
+		(real t, PosVec x) => -x[0]
 	];
 
 	// Solver(t0, X0, Force, step)
