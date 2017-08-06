@@ -27,7 +27,7 @@ void main() {
 	// do STEPS steps
 	for (int i=0; i < STEPS; ++i) {
 		PosVec X = eulersolver.step();
-		double t = eulersolver.time;;
+		double t = eulersolver.time;
 		// print current time
 		eulerOutput.writef("%f ", t);
 		// print coordinates

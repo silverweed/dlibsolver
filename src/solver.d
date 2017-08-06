@@ -32,7 +32,7 @@ class Solver {
 		return step(mstep);	
 	}
 	
-	void reset(real t0, in PosVec x0, ForceVec f = mF, real step = mstep) 
+	void reset(real t0, in PosVec x0, ForceVec f = mF, real step = mstep)
 	in {
 		assert(x0.length > 0);
 		assert(x0.length == f.length);
@@ -70,16 +70,23 @@ class EulerSolver : Solver {
 class RK2Solver : Solver {
 	this(real t0, in PosVec x0, ForceVec f, real step = 0) {
 		super(t0, x0, f, step);
+		k = new real[][2];
+		for (int i = 0; i < k.length; ++i)
+			k[i] = new real[](mX.length);
+	}
+
+	// FIXME: default arguments are rejected by compiler
+	override void reset(real t0, in PosVec x0, ForceVec f, real step) {
+		super.reset(t0, x0, f, step);
+		k = new real[][2];
+		for (int i = 0; i < k.length; ++i)
+			k[i] = new real[](mX.length);
 	}
 
 	alias step = Solver.step;
 	override PosVec step(real step) {
 		PosVec x = mX;
 		auto dim = mX.length;
-
-		auto k = new real[][2];
-		for (int i = 0; i < k.length; ++i)
-			k[i] = new real[](dim);
 
 		for (int i = 0; i < 2; ++i) {
 			for (int j = 0; j < dim; ++j) {
@@ -100,6 +107,7 @@ class RK2Solver : Solver {
 		return mX;
 	}
 
+	private real[][2] k;
 	private static immutable T_COEF = [0, 0.5];
 	private static immutable WEIGHTS = [0, 1];
 	private static immutable X_COEFS = [
@@ -111,16 +119,23 @@ class RK2Solver : Solver {
 class RK4Solver : Solver {
 	this(real t0, in PosVec x0, ForceVec f, real step = 0) {
 		super(t0, x0, f, step);
+		k = new real[][4];
+		for (int i = 0; i < k.length; ++i)
+			k[i] = new real[](mX.length);
+	}
+
+	// FIXME: default arguments are rejected by compiler
+	override void reset(real t0, in PosVec x0, ForceVec f, real step) {
+		super.reset(t0, x0, f, step);
+		k = new real[][4];
+		for (int i = 0; i < k.length; ++i)
+			k[i] = new real[](mX.length);
 	}
 
 	alias step = Solver.step;
 	override PosVec step(real step) {
 		PosVec x = mX;
 		auto dim = mX.length;
-
-		auto k = new real[][4];
-		for (int i = 0; i < k.length; ++i)
-			k[i] = new real[](dim);
 
 		for (int i = 0; i < T_COEF.length; ++i) {
 			for (int j = 0; j < dim; ++j) {
@@ -142,6 +157,7 @@ class RK4Solver : Solver {
 		return mX;
 	}
 
+	private real[][4] k;
 	private static immutable T_COEF = [0, 1/3., 2/3., 1];
 	private static immutable WEIGHTS = [1/8., 3/8., 3/8., 1/8.];
 	private static immutable X_COEFS = [
